@@ -88,7 +88,7 @@ export default class Editor extends React.Component{
             {
                 type: 0,
                 img: "format_list_numbered",
-                listener: this.handleBold,
+                listener: this.handleOL.bind(this),
             },
         ]
         let addButtonsObj = [
@@ -185,14 +185,17 @@ export default class Editor extends React.Component{
             <div id="2" className="fl-ac ml-5">{txtStyleButtons}</div>
             <SVGSeparator/>
             <div id="2" className="fl-ac ml-5">{txtLinkButton}</div>
-            <SVGSeparator/>
-            <div id="2" className="fl-ac ml-5">{listButtons}</div>
+            
             <SVGSeparator/>
             <div id="2" className="fl-ac ml-5">{txtAlignButtons}</div>
             <SVGSeparator/>
             <div id="2" className="fl-ac ml-5">{txtLineSpacingButton}</div>
             <SVGSeparator/>
             <div id="3" className="fl-ac ml-5">{removeButton}</div>
+
+            <HeaderM styleClass="ml-20">Convert</HeaderM>
+            <SVGSeparator/>
+            <div id="2" className="fl-ac ml-5">{listButtons}</div>
         </>
 
         this.imageMenu = <>
@@ -259,9 +262,11 @@ export default class Editor extends React.Component{
 
     handleUL = e => {
         (this.state.activeElement.state.type !== 1) ? this.state.activeElement.setState({type: 1}) : this.state.activeElement.setState({type: 0});
+        this.state.activeElement.node.focus();
     }
     handleOL = e =>{
-
+        (this.state.activeElement.state.type !== 2) ? this.state.activeElement.setState({type: 2}) : this.state.activeElement.setState({type: 0});
+        this.state.activeElement.node.focus();
     }
 
     handleTALeft = e => {
@@ -318,7 +323,7 @@ export default class Editor extends React.Component{
     handleClickBoard (e) {
         if(e.target.id === "board"){ 
             this.openHM();
-            if(this.state.activeElement) this.state.activeElement.setState({clicked: false})
+            if(this.state.activeElement) if(this.state.activeElement.clicked !== null) this.state.activeElement.setState({clicked: false})
         }
     }
 
@@ -328,12 +333,28 @@ export default class Editor extends React.Component{
         this.addImage(oURL);
     }
 
+    handleKey = (e) => {
+        if(e.key === "Backspace"){
+            //console.log(e.target.children[0].innerHTML, e.target.children[0].tagName)
+            if(e.target.children[0].innerHTML === "<br>" || e.target.children[0].innerHTML === ""){
+                e.preventDefault();
+                e.target.children[0].innerHTML = "";
+            } else if (e.target.children[0].tagName === "UL" && (e.target.children[0].children[0].innerHTML === "" || e.target.children[0].children[0].innerHTML === "<br>")){
+                e.preventDefault();
+                e.target.children[0].children[0].innerHTML = "";
+            }
+        } else if(e.key === "Enter" && this.state.activeElement.state.type !== 1){
+            e.preventDefault();
+            this.addTxt();
+        }
+    }
+
     openHM(){
         this.api.navBar.setState({cume: this.homeMenu})
     }
 
     addTxt(){
-        this.api.view.setState({content: this.api.view.state.content.concat(<Txt key={this.api.view.state.content.length+1} id={this.api.view.state.content.length+1} style="0" type="0" text="Type something" onClick={this.handleTxtClick}/>)})
+        this.api.view.setState({content: this.api.view.state.content.concat(<Txt key={this.api.view.state.content.length+1} id={this.api.view.state.content.length+1} style="0" type="0" text="Type something" onClick={this.handleTxtClick} onKeyDown={this.handleKey.bind(this)}/>)})
     }
 
     addImage(dataURL){
@@ -355,8 +376,8 @@ export default class Editor extends React.Component{
                 <NavBar sm={this.homeMenu} editor={this}/>
                 <Dummy/>
                 <View onClick={this.handleClickBoard.bind(this)} editor={this}>
-                    <Txt key="1" id="1" style="1" text="Title" onClick={this.handleTxtClick}/>
-                    <Txt key="2" id="3" style="0" text="Type something" onClick={this.handleTxtClick}/>
+                    <Txt key="1" id="1" style="1" type="0" text="Title" onClick={this.handleTxtClick} onKeyDown={this.handleKey.bind(this)}/>
+                    <Txt key="2" id="3" style="0" type="0" text="Type something" onClick={this.handleTxtClick} onKeyDown={this.handleKey.bind(this)}/>
                 </View>
             </>
         );

@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import "./index.css";
 
 function Dummy(){
@@ -8,9 +9,15 @@ function Dummy(){
 }
 
 class HeaderM extends React.Component{
+    /* TODO
+    handleClick = () => {
+        this.node = ReactDOM.findDOMNode(this);
+        this.node.className = "-0";
+    }
+    */
     render(){
         return (
-            <div className="mHl mr-5 fl-ac">{this.props.children}</div>
+            <div className={"mHl mr-5 fl-ac " + this.props.styleClass} onClick={this.handleClick}>{this.props.children}</div>
         )
     }
 }

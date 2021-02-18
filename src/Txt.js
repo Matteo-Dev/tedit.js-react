@@ -22,28 +22,20 @@ export default class Txt extends React.Component{
 
     componentDidMount(){
         this.node = ReactDOM.findDOMNode(this);
+        this.node.focus();
+        this.props.onClick(null, this); //uncomment to open text menu on focus
     }
 
-    handleDelete = (e) => {
-        if(e.key === "Backspace"){
-            console.log(e.target.children[0].innerHTML, e.target.children[0].tagName)
-            if(e.target.children[0].innerHTML === "<br>" || e.target.children[0].innerHTML === ""){
-                e.preventDefault();
-                e.target.children[0].innerHTML = "";
-            } else if (e.target.children[0].tagName === "UL" && (e.target.children[0].children[0].innerHTML === "" || e.target.children[0].children[0].innerHTML === "<br>")){
-                e.preventDefault();
-                e.target.children[0].children[0].innerHTML = "";
-            }
-        }
-    }
+    
 
     getContent = () => {
         this.node = ReactDOM.findDOMNode(this);
-        console.log(this.node, this.node.children)
-        for(const i of this.node.children){
-            this.content.push(i);
+        if(this.node){
+            for(const i of this.node.children){
+                if(i !== "") return i.innerText;
+                else return null;
+            }
         }
-        return this.content;
     }
 
     render(){
@@ -74,20 +66,19 @@ export default class Txt extends React.Component{
                 break;
         }
 
-        let tt, li;
-        if(this.state.type){
+        let tt, c;
+        console.log(this.state.type)
+        if(this.state.type !== undefined && this.state.type !== null && this.state.type !== NaN){
+            c = this.getContent();
             if(this.state.type === 0){
-                tt=<p className="pa" placeholder={ph}></p>
+                if(c) tt=<p className="pa" placeholder={ph}>{c}</p>
+                else tt=<p className="pa" placeholder={ph}></p>
             } else if (this.state.type === 1){
-                li=[]
-                this.getContent();
-                for(let i=0; i<this.content.length; i++){
-                    li.push(<li className="pa" placeholder={ph}>{this.content[i].innerHTML}</li>);
-                }
-                console.log(this.content, li);
-                tt=<ul>{li}</ul>
+                if(c) tt=<ul><li className="pa" placeholder={ph}>{c}</li></ul>
+                else tt=<ul><li className="pa" placeholder={ph}></li></ul>
             } else if (this.state.type === 2){
-                tt=<ol><li className="pa" placeholder={ph}></li></ol>
+                if(c) tt=<ol><li className="pa" placeholder={ph}>{c}</li></ol>
+                else tt=<ol><li className="pa" placeholder={ph}></li></ol>
             }
         } else {
             tt = <p className="pa" placeholder={ph}></p>;
@@ -109,7 +100,7 @@ export default class Txt extends React.Component{
         }
 
         return (
-            <span className={"ta "+ t} style={ta} contentEditable="true" spellCheck="false" onKeyDown={this.handleDelete} onClick={(e) => this.props.onClick(e, this)}>{tt}</span>
+            <span className={"ta "+ t} style={ta} contentEditable="true" spellCheck="false" onKeyDown={this.props.onKeyDown} onClick={(e) => this.props.onClick(e, this)}>{tt}</span>
         );
     }
 }
