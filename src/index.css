@@ -171,12 +171,11 @@ code{
     cursor: text;
 }
 /*from: http://jsfiddle.net/RZZ6X/, https://stackoverflow.com/questions/20726174/placeholder-for-contenteditable-div#24827239*/
-/*
+
 .ta[placeholder]:empty::before{
     content: attr(placeholder);
     color: #d9d9d9;
 }
-*/
 .ta:hover, .ta:focus{
     border-color: #d9d9d9;
     outline: none;

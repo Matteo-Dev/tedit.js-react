@@ -27,7 +27,7 @@ export default class Image extends React.Component{
                 <span className={(this.state.clicked) ? t + " img-clicked" : t }>
                     <img src={this.props.dataURL} className={it} onClick={(e)=>this.props.onClick(e, this)} alt={this.props.alt} style={{height: "auto"}}></img>
                 </span>
-                <div className="img-caption ta" contentEditable="true" spellCheck="false">{(this.props.captionText) ? this.props.captionText : "Type some caption"}</div>
+                <div className="img-caption ta" contentEditable="true" spellCheck="false" placeholder={(this.props.captionText) ? this.props.captionText : "Type some caption"}></div>
             </span>
         )
     }

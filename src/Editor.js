@@ -217,6 +217,7 @@ export default class Editor extends React.Component{
 
     handleTxtClick = (e, ae) => {
         //if(this.state.activeElement) this.state.activeElement.setState({clicked: false})
+        if(this.state.activeElement) if(this.state.activeElement.state.clicked !== undefined) this.state.activeElement.setState({clicked: false})
         this.setState({activeElement: ae});
         let aes, s;
         aes = ae.state.style;
@@ -229,10 +230,12 @@ export default class Editor extends React.Component{
         if(this.api.ddTxt) {
             this.api.ddTxt.setState({activeLabel: s});
         }
+
+        
     }
 
     handleImageClick = (e, ae) => {
-        if(this.state.activeElement) this.state.activeElement.setState({clicked: false})
+        if(this.state.activeElement) if(this.state.activeElement.state.clicked !== undefined) this.state.activeElement.setState({clicked: false})
         this.setState({activeElement: ae});
         ae.setState({clicked: true});
         let aes, s;
@@ -323,7 +326,7 @@ export default class Editor extends React.Component{
     handleClickBoard (e) {
         if(e.target.id === "board"){ 
             this.openHM();
-            if(this.state.activeElement) if(this.state.activeElement.clicked !== null) this.state.activeElement.setState({clicked: false})
+            if(this.state.activeElement) if(this.state.activeElement.state.clicked !== undefined) this.state.activeElement.setState({clicked: false})
         }
     }
 
