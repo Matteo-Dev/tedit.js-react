@@ -1,22 +1,30 @@
 import React from "react";
+import "./index.css";
 
-const Button = ({ style, handleClick, children}) => {
-    return (
-        <span className={style} onClick={handleClick}>{children}</span>
-    );
+class Button extends React.Component{
+    render(){
+        return (
+            <span className={this.props.style} onClick={this.props.onClick}>{this.props.children}</span>
+        )
+    }
 }
 
-const FileInputButton = ({ children , handleInput }) => {
-    let id = Date.now();
+class FileInputButton extends React.Component{
+    constructor(props){
+        super(props);
+        this.id = Date.now();
+    }
 
-    return (
-        <React.Fragment>
-            <label for={id} className="fl-ac">
-                <span className="i-btn material-icons-outlined">{children}</span>
-            </label>
-            <input id={id} type="file" onChange={handleInput}/>
-        </React.Fragment>
-    );
+    render(){
+        return (
+            <>
+                <label for={this.id} className="fl-ac">
+                    <span className="i-btn material-icons-outlined">{this.props.children}</span>
+                </label>
+                <input id={this.id} type="file" onChange={this.props.onInput}/>
+            </>
+        );
+    }
 }
 
 export {Button, FileInputButton}

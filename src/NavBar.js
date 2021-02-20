@@ -1,5 +1,6 @@
 import React from "react";
-import { SVGSeparator } from "./SVGs";
+import ReactDOM from "react-dom";
+import "./index.css";
 
 function Dummy(){
     return (
@@ -7,36 +8,42 @@ function Dummy(){
     );
 }
 
-const HeaderM = ({ styleClass, handleClick, children}) => {
+class HeaderM extends React.Component{
     /* TODO
     handleClick = () => {
         this.node = ReactDOM.findDOMNode(this);
         this.node.className = "-0";
     }
     */
-    return (
-        <div className={"mHl mr-5 fl-ac " + styleClass} onClick={handleClick}>{children}</div>
-    )
+    render(){
+        return (
+            <div className={"mHl mr-5 fl-ac " + this.props.styleClass} onClick={this.handleClick}>{this.props.children}</div>
+        )
+    }
 }
 
-const Navbar = ({ children }) => {
-    return ( 
-        <React.Fragment>
+class NavBar extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            cume: this.props.sm,
+        }
+        this.props.editor.api.navBar = this;
+    }
+    render(){
+        //if(this.state.cume) console.log(this.state.cume.props.children[2].props.apiName)
+        //if(this.state.cume.props.children[2].props.apiName) this.props.editor.api[this.state.cume.props.children[2].props.apiName].setState({activeLabel: this.state.al[0]})
+        //this.api.ddTxt.setState({activeLabel: s});
+        return (
             <div className="menu-container">
                 <div className="menu-elem-container">
                     <div className="fl-r">
-                        {children.map(c => (
-                            <React.Fragment>
-                                {c}
-                                <SVGSeparator/>
-                            </React.Fragment>
-                        ))}
+                        {this.state.cume}
                     </div>
                 </div>
             </div>
-            <Dummy/>
-        </React.Fragment>
-     );
+        );
+    }
 }
- 
-export { Navbar, HeaderM };
+
+export {NavBar, HeaderM, Dummy}
