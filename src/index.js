@@ -4,4 +4,10 @@ import "./index.css";
 
 import Editor from "./Editor";
 
-ReactDOM.render(<Editor />, document.getElementById("root"));
+ReactDOM.render(
+    <React.StrictMode>
+        <Editor />
+    </React.StrictMode>, 
+
+    document.getElementById("root")
+);
