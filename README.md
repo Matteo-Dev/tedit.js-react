@@ -6,6 +6,9 @@
 
 This will become a powerful online text editor for an amazing website which is still to be published.
 
+## Demo
+Go to: https://tedit-v0.netlify.app/
+
 ## My vision
 Have you every visited a website for any kind of research, read some sentence and tought _"well, that's nice and all but where is the source?"_?
 Well, I have. So many god-damn times. \
